@@ -63,7 +63,6 @@ h2{font-size:2rem;color:var(--berry-deep)}
 #app,#hud,#right,#lives,#card,.how{gap:0}#app>*+*{margin-top:8px}
 #hud>*+*{margin-left:10px}#right>*+*{margin-left:10px}#lives>*+*{margin-left:2px}
 #card>*+*{margin-top:12px}.how>*+*{margin-top:5px}.cats{grid-gap:6px}
-
 @media (min-aspect-ratio:4/3) and (min-width:800px){
   html,body{height:100%}
   #app{max-width:none;height:100vh;display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto;
@@ -175,55 +174,151 @@ h2{font-size:2rem;color:var(--berry-deep)}
     ipad: { n: "Mamas iPad", eur: 329, v: 58, loud: 1, hit: "KRRRK!", quip: "WER war am iPad?!", col: ["#c9ced9", "#ffb37a"] },
     lego: { n: "Halbes Lego-Raumschiff", eur: 39, v: 76, loud: 1, hit: "KLACKER!", quip: "Schon wieder Lego!", col: ["#ef5350", "#4f8fe0"] },
     pokal: { n: "Tennispokal", eur: 59, v: 44, loud: 1, hit: "KLONK!", quip: "Mein Tennispokal!", col: ["#f0bf3e", "#fff1b8"] },
+    switch: { n: "Ts Switch", eur: 299, v: 70, loud: 1, hit: "KRACKS!", quip: "Wer zockt da?!", col: ["#ff5a5a", "#29b6e8"] },
+    pluesch: { n: "Ms Kuscheltier", eur: 15, v: 118, loud: 0, hit: "flump", quip: "Das Kuscheltier hat Angst.", col: ["#c98b5a", "#f3d3b0"] },
+    heft: { n: "Hausaufgabenheft", eur: 2, v: 128, loud: 0, hit: "raschel", quip: "Die Katze hat meine Hausaufgaben gefressen!", col: ["#4f8fe0", "#fff"] },
+    zahnputz: { n: "Zahnputzbecher", eur: 8, v: 88, loud: 1, hit: "KLAPPER!", quip: "Wer hat nicht Zähne geputzt?!", col: ["#5fc4c9", "#ff8fb0"] },
+    zahnpasta: { n: "Zahnpasta", eur: 3, v: 110, loud: 0, hit: "pfrrt", quip: "Pfefferminz auf den Fliesen.", col: ["#fff", "#4fb3e0"] },
+    ente: { n: "Quietscheente", eur: 4, v: 115, loud: 0, hit: "QUIETSCH", quip: "Die Ente schwimmt jetzt auf dem Boden.", col: ["#ffd23f", "#ff8a2a"] },
+    parfum: { n: "Mamas Parfüm", eur: 79, v: 56, loud: 1, hit: "KLIRR!", quip: "Warum riecht der Flur nach Mama?!", col: ["#f7a6c7", "#e5b84a"] },
+    laptop: { n: "Mamas Laptop", eur: 899, v: 40, loud: 1, hit: "KRAWUMM!", quip: "Sorry, mein Bild ist eingefroren!", col: ["#c9ced9", "#7fd6ff"] },
+    ordner: { n: "Steuerordner", eur: 5, v: 100, loud: 0, hit: "flatsch", quip: "Die Steuer! Alles durcheinander!", col: ["#e05a5a", "#fff"] },
+    zwerg: { n: "Gartenzwerg", eur: 25, v: 60, loud: 1, hit: "KLONK!", quip: "Der Zwerg hat nichts gesehen.", col: ["#e04848", "#4f7fd6"] },
+    limo: { n: "Glas Apfelschorle", eur: 4, v: 96, loud: 1, hit: "KLIRR!", quip: "Wer hat die Schorle umgeworfen?!", col: ["#f2c35b", "#fff"] },
+    ball: { n: "Fußball", eur: 20, v: 120, loud: 0, hit: "boing", quip: "Tor! Sagt T.", col: ["#fff", "#333"] },
     gurke: { n: "Gurke", eur: 0, v: 0, loud: 0, hit: "", quip: "", col: ["#5cab55", "#a6d99a"] }
   };
+  const PAPA = "#6d4427", MAMA = "#b4552f";
   const ROOMS = [
     {
       name: "Küche",
       who: "Papa frühstückt, Handy neben der Tasse.",
-      hair: "#6d4427",
+      hair: PAPA,
       shirt: "#5c8fd6",
       wall: "#cdeee3",
       floor: "#ecc9a3",
-      away: [2, 3.6],
-      warn: 0.95,
-      look: 1,
-      items: ["tasse", "toast", "gurke", "blume", "handy"],
+      kind: 0,
+      pose: 0,
+      items: ["tasse", "toast", "blume", "handy", "kuchen", "limo", "ipad"],
       hum: ["Nur noch kurz Fußball…", "Papa ist am Handy!", "Ich schau nur kurz…", "Kaffee. Kaffee. Kaffee."],
-      yell: ["{C}! Was war DIESMAL?!", "{C}! Ich hab doch gesagt: NEIN!", "Ist das MEIN Frühstück, {c}?!"],
-      kind: 0
+      yell: ["{C}! Was war DIESMAL?!", "{C}! Ich hab doch gesagt: NEIN!", "Ist das MEIN Frühstück, {c}?!"]
     },
     {
       name: "Wohnzimmer",
       who: "Mama telefoniert. Das dauert.",
-      hair: "#b4552f",
+      hair: MAMA,
+      mama: 1,
       shirt: "#62b86d",
       wall: "#fbdcc5",
       floor: "#c49a75",
-      away: [1.5, 3],
-      warn: 0.8,
-      look: 1.2,
-      items: ["fern", "socke", "kuchen", "gurke", "vase", "toast", "ipad"],
+      kind: 1,
+      pose: 1,
+      items: ["fern", "socke", "vase", "ipad", "pluesch", "handy", "tasse"],
       hum: ["Ja, genau…", "Echt jetzt?", "Ich ruf dich morgen an!", "Du, der Papa schläft schon wieder."],
-      yell: ["{C}! WER hat dir das erlaubt?!", "Moment, ich ruf zurück. {C}!!", "{C}! Das Essen wird kalt!"],
-      kind: 1
+      yell: ["{C}! WER hat dir das erlaubt?!", "Moment, ich ruf zurück. {C}!!", "{C}! Das Essen wird kalt!"]
     },
     {
       name: "Papas Arbeitszimmer",
       who: "Papa spielt E-Piano. Richtig gut!",
-      hair: "#6d4427",
+      hair: PAPA,
       shirt: "#8c6cd1",
       wall: "#dfe2f6",
       floor: "#a99bbd",
-      away: [1.1, 2.5],
-      warn: 0.62,
-      look: 1.4,
-      items: ["tasse", "lego", "gurke", "pokal", "socke", "wecker", "gurke", "kuchen", "handy"],
+      kind: 2,
+      pose: 2,
+      items: ["tasse", "lego", "pokal", "socke", "wecker", "handy", "ordner"],
       hum: ["Dü dü dümm…", "Richtig gut sogar!", "Nur noch ein Stück.", "Ich teste nur das Piano."],
-      yell: ["{C}! Ich teste nur, ob DU noch gehst!", "Mitten im Solo, {c}!", "{C}! Raus aus dem Keller!"],
-      kind: 2
+      yell: ["{C}! Ich teste nur, ob DU noch gehst!", "Mitten im Solo, {c}!", "{C}! Raus aus dem Keller!"]
+    },
+    {
+      name: "Zimmer T",
+      who: "Mama sortiert Wäsche, Hörbuch im Ohr.",
+      hair: MAMA,
+      mama: 1,
+      shirt: "#e08a5a",
+      wall: "#d8e6ff",
+      floor: "#c7b39a",
+      kind: 3,
+      pose: 0,
+      items: ["switch", "lego", "socke", "heft", "ball", "wecker", "limo"],
+      hum: ["Schon wieder nur eine Socke…", "Wieso liegt hier überall Lego?", "Mhm, spannendes Kapitel…", "Warum ist die Decke so warm?"],
+      yell: ["{C}! Raus aus dem Kinderzimmer!", "{C}! Erst Hausaufgaben!", "{C}! Das ist Ts Lego!"]
+    },
+    {
+      name: "Zimmer M",
+      who: "Papa hilft bei den Hausaufgaben.",
+      hair: PAPA,
+      shirt: "#e0b23e",
+      wall: "#ffe6c2",
+      floor: "#d2a97f",
+      kind: 4,
+      pose: 3,
+      items: ["pluesch", "heft", "lego", "toast", "wecker", "socke", "blume"],
+      hum: ["Sieben mal acht… äh…", "Ich hab doch gesagt: erst Hausaufgaben.", "Papa, nochmal!", "Mathe war früher einfacher."],
+      yell: ["{C}! Das war das Hausaufgabenheft!", "{C}! Runter vom Schreibtisch!", "Die Katze hat die Hausaufgaben… {C}!!"]
+    },
+    {
+      name: "Bad",
+      who: "TOGGO Radio läuft. Mama putzt Zähne.",
+      hair: MAMA,
+      mama: 1,
+      shirt: "#5fb9c9",
+      wall: "#dff3f6",
+      floor: "#b9c7d6",
+      kind: 5,
+      pose: 4,
+      items: ["zahnputz", "zahnpasta", "ente", "parfum", "socke", "handy", "wecker"],
+      hum: ["Schrubb schrubb schrubb", "Lalala, TOGGO Radio!", "Wer hat das Warmwasser verbraucht?", "Mmmh mmh mmh"],
+      yell: ["{C}! Raus aus dem Waschbecken!", "Nicht schon WIEDER im Bad, {c}!", "{C}! Das ist MEIN Parfüm!"]
+    },
+    {
+      name: "Mamas Arbeitszimmer",
+      who: "Mama hat einen Call. Alle hören mit.",
+      hair: MAMA,
+      mama: 1,
+      shirt: "#d36c9b",
+      wall: "#f6e3ef",
+      floor: "#b79f93",
+      kind: 6,
+      pose: 5,
+      items: ["laptop", "ordner", "tasse", "blume", "ipad", "kuchen", "wecker"],
+      hum: ["Könnt ihr mich hören?", "Ich teile mal kurz den Bildschirm.", "Du bist noch stumm geschaltet.", "Ja, das nehm ich mit."],
+      yell: ["{C}! Ich bin im CALL!", "Sorry, das war die Katze. {C}!!", "{C}! Alle haben das gesehen!"]
+    },
+    {
+      name: "Garten",
+      who: "Papa gießt die Blumen. Der Mähroboter brummt.",
+      hair: PAPA,
+      shirt: "#f08a4b",
+      wall: "#9fd6f5",
+      floor: "#8cc76a",
+      kind: 7,
+      pose: 3,
+      items: ["zwerg", "limo", "ball", "blume", "handy", "toast", "kuchen"],
+      hum: ["Herrlich ruhig hier.", "Wer hat den Ball in die Hecke…", "Die Rosen brauchen Wasser.", "Brumm brumm, Mähroboter."],
+      yell: ["{C}! Runter vom Gartentisch!", "Der Zwerg! {C}!!", "{C}! Das war MEINE Schorle!"]
     }
   ];
+  function room() {
+    return ROOMS[G.order[G.lvl]];
+  }
+  function diff() {
+    const i = G.lvl;
+    return { away: [2.2 - 0.15 * i, 3.8 - 0.2 * i], warn: 1 - 0.055 * i, look: 1 + 0.08 * i };
+  }
+  function shuffle(a) {
+    a = a.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.random() * (i + 1) | 0;
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+  function buildQueue(R, i) {
+    const q = shuffle(R.items).slice(0, 4 + Math.round(i * 3 / 7)), g = 1 + (i >= 3) + (i >= 6);
+    for (let k = 0; k < g; k++) q.splice(1 + (Math.random() * q.length | 0), 0, "gurke");
+    return q;
+  }
   const SHOUTS = ["T: „Dampfnudeln!“", "M: „Bäh.“", "T: „Papa ist AM HANDY!“", "M: „Mama, es donnert!“", "T: „Wo ist mein Lego?!“", "M: „Papa, nochmal!“", "Mama: „Essen ist fertig!“", "Papa: „Wer hat das Warmwasser verbraucht?!“", "T: „Minecraft ist voll kreativ!“", "Es klingelt. Schon wieder ein Paket."];
   let G, sel = 0;
   try {
@@ -236,10 +331,12 @@ h2{font-size:2rem;color:var(--berry-deep)}
     return {
       phase: "menu",
       lvl: 0,
+      order: shuffle(ROOMS.map((r, i) => i)),
       money: 0,
       lives: 3,
       done: 0,
-      queue: ROOMS[0].items.slice(),
+      total: 0,
+      queue: [],
       item: null,
       gap: 0.3,
       floor: [],
@@ -593,6 +690,240 @@ h2{font-size:2rem;color:var(--berry-deep)}
       x.stroke();
       shine(-16, -66, -14, -46, 3.5);
     }
+    if (k === "switch") {
+      rr(-44, -17, 13, 17, 6);
+      fill(hg(-44, -31, "#5fd0f5", "#1f9ccc"));
+      rr(31, -17, 13, 17, 6);
+      fill(hg(31, 44, "#ff8080", "#d83a3a"));
+      rr(-32, -17, 64, 17, 3);
+      fill(vg(-17, 0, "#4a4f63", "#24273a"));
+      rr(-28, -14, 56, 11, 2);
+      fill(hg(-28, 28, "#7fe3ff", "#b48cff"));
+      ell(-38, -11, 2.5, 2.5, "#155f80");
+      ell(38, -6, 2, 2, "#7a1b1b");
+      ell(40, -11, 2, 2, "#7a1b1b");
+      shine(-24, -12, -6, -12, 1.4);
+    }
+    if (k === "pluesch") {
+      ell(-12, -4, 8, 6, p[1]);
+      ell(12, -4, 8, 6, p[1]);
+      ell(0, -22, 19, 19);
+      fill(hg(-19, 19, shade(p[0], 0.2), shade(p[0], -0.2)));
+      ell(0, -18, 10, 11, p[1]);
+      for (const s of [-1, 1]) {
+        ell(s * 13, -63, 7, 7, p[0]);
+        ell(s * 13, -63, 3.5, 3.5, p[1]);
+        ell(s * 19, -24, 6, 9, shade(p[0], -0.08));
+      }
+      ell(0, -49, 17, 16);
+      fill(hg(-17, 17, shade(p[0], 0.24), shade(p[0], -0.16)));
+      ell(0, -44, 8, 6, p[1]);
+      ell(0, -47, 3, 2.2, "#4a2f3f");
+      ell(-6, -53, 2.2, 2.6, "#2b1e29");
+      ell(6, -53, 2.2, 2.6, "#2b1e29");
+      line([-2, -42, 0, -40, 2, -42], "#4a2f3f", 1.4);
+      ell(-10, -46, 3, 2, "rgba(255,120,150,.4)");
+      ell(10, -46, 3, 2, "rgba(255,120,150,.4)");
+    }
+    if (k === "heft") {
+      x.save();
+      x.rotate(-0.05);
+      rr(-31, -10, 62, 10, 2);
+      fill("#fff");
+      for (let i = 0; i < 3; i++) line([-29, -8 + i * 2.5, 29, -8 + i * 2.5], "#d7dbe6", 0.8);
+      rr(-32, -13, 64, 5, 2);
+      fill(hg(-32, 32, shade(p[0], 0.2), shade(p[0], -0.15)));
+      x.restore();
+      x.font = "800 11px " + FONT;
+      x.textAlign = "center";
+      x.fillStyle = "#4f8fe0";
+      x.fillText("Mathe", 0, -18);
+    }
+    if (k === "zahnputz") {
+      x.save();
+      x.rotate(-0.25);
+      rr(-3, -60, 6, 40, 3);
+      fill("#ff8fb0");
+      rr(-4, -68, 8, 12, 3);
+      fill("#fff");
+      x.restore();
+      x.save();
+      x.rotate(0.22);
+      rr(-3, -58, 6, 38, 3);
+      fill("#7fd06d");
+      rr(-4, -66, 8, 12, 3);
+      fill("#fff");
+      x.restore();
+      x.beginPath();
+      x.moveTo(-14, -36);
+      x.lineTo(14, -36);
+      x.lineTo(11, 0);
+      x.lineTo(-11, 0);
+      x.closePath();
+      fill(hg(-14, 14, shade(p[0], 0.3), shade(p[0], -0.2)));
+      shine(-8, -30, -7, -6, 3);
+    }
+    if (k === "zahnpasta") {
+      x.beginPath();
+      x.moveTo(-30, -15);
+      x.lineTo(20, -12);
+      x.lineTo(20, -2);
+      x.lineTo(-30, 0);
+      x.closePath();
+      fill(vg(-15, 0, "#fff", "#d9e2ec"));
+      rr(-30, -15, 6, 15, 1);
+      fill("#c8d2e0");
+      rr(-14, -12, 22, 8, 2);
+      fill(p[1]);
+      rr(20, -11, 10, 8, 2);
+      fill("#4fb3e0");
+      x.beginPath();
+      x.moveTo(30, -8);
+      x.quadraticCurveTo(40, -16, 46, -6);
+      x.quadraticCurveTo(40, -2, 36, -8);
+      x.strokeStyle = "#bfe9ff";
+      x.lineWidth = 4;
+      x.stroke();
+    }
+    if (k === "ente") {
+      ell(0, -15, 22, 15);
+      fill(vg(-30, 0, "#ffe36e", p[0]));
+      ell(11, -35, 12, 12);
+      fill(vg(-47, -23, "#ffe36e", p[0]));
+      ell(24, -33, 8, 4, p[1]);
+      ell(14, -38, 2.2, 2.2, "#2b1e29");
+      ell(-5, -16, 10, 6, shade(p[0], -0.1));
+      x.beginPath();
+      x.moveTo(-22, -18);
+      x.lineTo(-30, -26);
+      x.lineTo(-18, -24);
+      x.closePath();
+      fill(p[0]);
+      shine(-12, -24, 0, -27, 2.5);
+    }
+    if (k === "parfum") {
+      rr(-7, -54, 14, 12, 3);
+      fill(hg(-7, 7, "#ffe59a", "#b98413"));
+      rr(-3, -44, 6, 5, 1);
+      fill("#d9b24f");
+      rr(-16, -40, 32, 40, 9);
+      fill(hg(-16, 16, "rgba(255,190,215,.95)", "rgba(214,110,160,.95)"));
+      rr(-9, -26, 18, 12, 3);
+      fill("#fff8fb");
+      x.font = "800 6px " + FONT;
+      x.textAlign = "center";
+      x.fillStyle = "#d36c9b";
+      x.fillText("Mama", 0, -18);
+      shine(-10, -34, -10, -8, 3);
+    }
+    if (k === "laptop") {
+      x.beginPath();
+      x.moveTo(-44, -10);
+      x.lineTo(44, -10);
+      x.lineTo(40, 0);
+      x.lineTo(-40, 0);
+      x.closePath();
+      fill(vg(-10, 0, "#e3e6ee", "#a4abbb"));
+      rr(-36, -62, 72, 52, 6);
+      fill(vg(-62, -10, "#d7dbe5", "#9ea6b8"));
+      rr(-32, -58, 64, 44, 3);
+      fill("#25293b");
+      const cs = ["#ffd3b5", "#c98b5a", "#f2c4a2", "#8d5a3a"];
+      for (let i = 0; i < 4; i++) {
+        const a = -31 + i % 2 * 32, b = -57 + (i >> 1) * 22;
+        rr(a, b, 30, 20, 2);
+        fill(i == 1 ? "#5d6b9a" : "#41507e");
+        ell(a + 15, b + 11, 5, 5.5, cs[i]);
+        ell(a + 15, b + 20, 8, 5, i % 2 ? "#e85d8a" : "#58c9a5");
+      }
+    }
+    if (k === "ordner") {
+      rr(-15, -62, 30, 62, 3);
+      fill(hg(-15, 15, shade(p[0], 0.2), shade(p[0], -0.2)));
+      rr(-10, -54, 20, 24, 2);
+      fill("#fff");
+      x.font = "800 7px " + FONT;
+      x.textAlign = "center";
+      x.fillStyle = "#7a2a2a";
+      x.fillText("Steuer", 0, -40);
+      ell(0, -16, 5, 5, "#fff");
+      ell(0, -16, 2.6, 2.6, shade(p[0], -0.3));
+    }
+    if (k === "zwerg") {
+      rr(-12, -8, 10, 8, 3);
+      fill("#6a4632");
+      rr(2, -8, 10, 8, 3);
+      fill("#6a4632");
+      x.beginPath();
+      x.moveTo(-17, -6);
+      x.lineTo(17, -6);
+      x.lineTo(11, -38);
+      x.lineTo(-11, -38);
+      x.closePath();
+      fill(hg(-17, 17, shade(p[1], 0.2), shade(p[1], -0.2)));
+      ell(0, -44, 11, 11, "#f2c4a2");
+      tuft(0, -38, 13, 13, 0.3, 2.85, 6, 0.4, "#fff");
+      ell(-4, -47, 1.8, 1.8, "#2b1e29");
+      ell(4, -47, 1.8, 1.8, "#2b1e29");
+      ell(0, -43, 3.2, 2.6, "#e89a86");
+      x.beginPath();
+      x.moveTo(-14, -50);
+      x.lineTo(14, -50);
+      x.lineTo(4, -82);
+      x.closePath();
+      fill(hg(-14, 14, shade(p[0], 0.2), shade(p[0], -0.2)));
+      ell(4, -82, 3, 3, "#fff");
+    }
+    if (k === "limo") {
+      line([6, -50, 14, -64], "#ff6f91", 3.5);
+      x.beginPath();
+      x.moveTo(-16, -46);
+      x.lineTo(16, -46);
+      x.lineTo(12, 0);
+      x.lineTo(-12, 0);
+      x.closePath();
+      fill("rgba(225,240,255,.75)");
+      x.beginPath();
+      x.moveTo(-15, -34);
+      x.lineTo(15, -34);
+      x.lineTo(12, -2);
+      x.lineTo(-12, -2);
+      x.closePath();
+      fill(vg(-34, 0, "#ffd877", "#e8a83a"));
+      for (const [a, b] of [[-5, -24], [4, -14], [-2, -8], [6, -28]]) ell(a, b, 1.8, 1.8, "rgba(255,255,255,.8)");
+      shine(-11, -42, -9, -6, 2.5);
+      ell(-14, -48, 6, 6, "#9ad65a");
+    }
+    if (k === "ball") {
+      ell(0, -19, 19, 19);
+      fill(x.createRadialGradient(-6, -26, 2, 0, -19, 20));
+      x.fillStyle = (() => {
+        const g = x.createRadialGradient(-6, -26, 2, 0, -19, 20);
+        g.addColorStop(0, "#fff");
+        g.addColorStop(1, "#cfd5e0");
+        return g;
+      })();
+      x.fill();
+      const pg = (cx, cy, r) => {
+        x.beginPath();
+        for (let i = 0; i < 5; i++) {
+          const a = -1.57 + i * 1.2566;
+          i ? x.lineTo(cx + Math.cos(a) * r, cy + Math.sin(a) * r) : x.moveTo(cx + Math.cos(a) * r, cy + Math.sin(a) * r);
+        }
+        x.closePath();
+        fill("#2f3346");
+      };
+      pg(0, -19, 6.5);
+      x.save();
+      ell(0, -19, 19, 19);
+      x.clip();
+      pg(-15, -28, 6);
+      pg(15, -28, 6);
+      pg(-11, -2, 6);
+      pg(11, -2, 6);
+      pg(0, -40, 5);
+      x.restore();
+    }
     if (k === "gurke") {
       rr(-45, -24, 90, 24, 12);
       fill(vg(-24, 0, "#7ccc72", "#3e8e42"));
@@ -817,7 +1148,7 @@ h2{font-size:2rem;color:var(--berry-deep)}
       rr(-30, 206, 60, 80, 12);
       fill(vg(206, 314, "#fffaf3", "#ebdccf"));
     }
-    const arm = (1 - tu) * Math.sin(tt * (kind === 2 ? 10 : 7)) * 7;
+    const arm = (1 - tu) * Math.sin(tt * (kind === 2 || kind === 4 ? 10 : 7)) * 7;
     const sl = (pts) => {
       line(pts, dark, 23);
       line(pts, R.shirt, 20);
@@ -850,7 +1181,7 @@ h2{font-size:2rem;color:var(--berry-deep)}
     ell(0, 126 + bob, 47, 49);
     x.clip();
     const hairY = 126 + bob - tu * 48, hc = R.hair;
-    ell(0, hairY, 54, (kind === 1 ? 60 : 55) - tu * 26, hg(-54, 54, shade(hc, 0.24), shade(hc, -0.26), hc));
+    ell(0, hairY, 54, (R.mama ? 60 : 55) - tu * 26, hg(-54, 54, shade(hc, 0.24), shade(hc, -0.26), hc));
     if (tu < 0.9) for (let i = -3; i <= 3; i++) {
       x.beginPath();
       x.moveTo(i * 14, hairY - 50);
@@ -860,12 +1191,31 @@ h2{font-size:2rem;color:var(--berry-deep)}
       x.stroke();
     }
     x.restore();
-    if (kind === 1) {
+    if (R.mama) {
       rr(-49, 136 - tu * 26, 14, 50 + tu * 26, 7);
       fill(hc);
       rr(35, 136 - tu * 26, 14, 50 + tu * 26, 7);
       fill(shade(hc, -0.15));
+    }
+    if (kind === 5) {
+      x.beginPath();
+      x.arc(0, 126 + bob, 51, Math.PI * 1.08, Math.PI * 1.92);
+      x.strokeStyle = "#3a3f55";
+      x.lineWidth = 6;
+      x.stroke();
+      for (const s of [-1, 1]) ell(s * 49, 132, 9, 12, "#3a3f55");
       if (tu < 0.6) {
+        x.beginPath();
+        x.moveTo(49, 140);
+        x.quadraticCurveTo(52, 168, 30, 172);
+        x.strokeStyle = "#3a3f55";
+        x.lineWidth = 3;
+        x.stroke();
+        ell(28, 172, 4, 4, "#e85d8a");
+      }
+    }
+    if (kind === 1 && tu < 0.6) {
+      if (1) {
         rr(40, 134, 15, 42, 4);
         fill(vg(134, 176, "#42485e", "#20243a"));
         ell(47, 170, 1.6, 1.6, "#6be0ff");
@@ -877,7 +1227,7 @@ h2{font-size:2rem;color:var(--berry-deep)}
         line([s * 47, 134, s * 51, 177], "#fff", 1.6);
       }
     }
-    if (kind === 2 && tu < 0.5) {
+    if ((kind === 2 || kind === 4) && tu < 0.5) {
       x.font = "800 25px " + FONT;
       x.textAlign = "center";
       x.fillStyle = R.shirt;
@@ -925,7 +1275,7 @@ h2{font-size:2rem;color:var(--berry-deep)}
     x.globalAlpha = 0.5;
     x.strokeStyle = "rgba(255,255,255,.75)";
     x.lineWidth = 1;
-    if (R.kind === 0) {
+    if (R.kind === 0 || R.kind === 5) {
       for (let i = 20; i < 226; i += 34) {
         x.beginPath();
         x.moveTo(0, i);
@@ -938,13 +1288,13 @@ h2{font-size:2rem;color:var(--berry-deep)}
         x.lineTo(i, 226);
         x.stroke();
       }
-    } else if (R.kind === 1) {
+    } else if (R.kind === 1 || R.kind === 3) {
       for (let i = 14; i < W; i += 44) {
         for (let j = 20; j < 230; j += 44) {
           ell(i + (j % 88 ? 22 : 0), j, 3.5, 3.5, "#fff");
         }
       }
-    } else {
+    } else if (R.kind !== 7) {
       for (let i = 8; i < W; i += 28) {
         rr(i, 0, 10, 306, 0);
         fill("rgba(255,255,255,.28)");
@@ -1043,7 +1393,7 @@ h2{font-size:2rem;color:var(--berry-deep)}
       x.closePath();
       fill(vg(70, 126, "#ffe693", "#ffc95c"));
       ell(345, 304, 22, 5, "#4a3a44");
-    } else {
+    } else if (R.kind === 2) {
       rr(12, 34, 110, 10, 3);
       fill(vg(34, 44, "#b98658", "#7d5233"));
       rr(12, 108, 110, 10, 3);
@@ -1080,8 +1430,241 @@ h2{font-size:2rem;color:var(--berry-deep)}
       }
       line([134, 262, 126, 304], "#3f4358", 9);
       line([282, 262, 290, 304], "#3f4358", 9);
+    } else if (R.kind === 3) {
+      frame(22, 40, 90, 112, vg(47, 145, "#5d6bd6", "#2b2f7a"));
+      for (let i = 0; i < 9; i++) ell(32 + i * 29 % 72, 52 + i * 37 % 86, 1.6, 1.6, "#fff");
+      x.save();
+      x.translate(68, 98);
+      x.rotate(0.4);
+      rr(-9, -28, 18, 46, 9);
+      fill(hg(-9, 9, "#fff", "#c9cfe0"));
+      ell(0, -8, 5, 5, "#7fd6ff");
+      x.beginPath();
+      x.moveTo(-9, 10);
+      x.lineTo(-17, 24);
+      x.lineTo(-9, 18);
+      x.closePath();
+      fill("#ef5350");
+      x.beginPath();
+      x.moveTo(9, 10);
+      x.lineTo(17, 24);
+      x.lineTo(9, 18);
+      x.closePath();
+      fill("#ef5350");
+      ell(0, 24, 5, 9, "#ffc94f");
+      x.restore();
+      rr(12, 170, 110, 8, 3);
+      fill(vg(170, 178, "#c98a5d", "#8d5a38"));
+      for (const [a, cl, w, h] of [[18, "#ef5350", 22, 14], [42, "#4f8fe0", 30, 14], [52, "#ffc94f", 14, 12], [78, "#62b86d", 22, 14], [96, "#ef5350", 16, 12]]) {
+        rr(a, 170 - h - (a === 52 ? 14 : 0), w, h, 2);
+        fill(cl);
+        for (let i = a + 4; i < a + w; i += 8) {
+          rr(i, 166 - h - (a === 52 ? 14 : 0), 5, 4, 1);
+          fill(shade(cl, 0.25));
+        }
+      }
+      rr(262, 226, 140, 80, 10);
+      fill(vg(226, 306, "#9a6a46", "#6c4429"));
+      rr(266, 210, 134, 30, 12);
+      fill("#f7f3ee");
+      x.beginPath();
+      x.moveTo(262, 236);
+      x.quadraticCurveTo(320, 206, 400, 230);
+      x.lineTo(400, 300);
+      x.lineTo(262, 300);
+      x.closePath();
+      fill(vg(206, 300, "#5aa0e8", "#3a6fc0"));
+      ell(322, 236, 26, 16, "#6aaef0");
+      const gl = x.createRadialGradient(322, 246, 2, 322, 246, 30);
+      gl.addColorStop(0, "rgba(127,227,255,.55)");
+      gl.addColorStop(1, "rgba(127,227,255,0)");
+      x.fillStyle = gl;
+      x.fillRect(290, 215, 64, 60);
+      rr(370, 196, 30, 22, 8);
+      fill("#fff");
+    } else if (R.kind === 4) {
+      frame(22, 44, 96, 92, vg(51, 129, "#83d0ff", "#e6f7ff"));
+      ell(52, 104, 18, 9, "#fff");
+      ell(70, 98, 14, 9, "#fff");
+      ell(92, 66, 10, 10, "#ffe08c");
+      rr(16, 38, 108, 8, 3);
+      fill("#e8a83a");
+      x.save();
+      x.translate(76, 236);
+      x.rotate(-0.18);
+      rr(-3, -110, 7, 96, 2);
+      fill("#5a3a24");
+      rr(-6, -122, 13, 16, 3);
+      fill("#3e2919");
+      ell(0, -6, 26, 24);
+      fill(hg(-26, 26, "#f0a85a", "#b8682c"));
+      ell(0, -34, 19, 18);
+      fill(hg(-19, 19, "#f0a85a", "#b8682c"));
+      ell(0, -18, 7, 7, "#3e2919");
+      for (const q of [-2, 0, 2]) line([q, -108, q, -2], "rgba(255,255,255,.6)", 0.6);
+      x.restore();
+      rr(262, 226, 140, 80, 14);
+      fill(vg(226, 306, "#ffffff", "#e6dde6"));
+      x.beginPath();
+      x.moveTo(262, 240);
+      x.quadraticCurveTo(330, 222, 400, 236);
+      x.lineTo(400, 300);
+      x.lineTo(262, 300);
+      x.closePath();
+      fill(vg(222, 300, "#ffa6c4", "#e8749c"));
+      for (let i = 0; i < 6; i++) ell(280 + i * 22, 262 + i % 2 * 12, 3, 3, "#fff");
+      for (const [a, cl, s] of [[290, "#c98b5a", 1], [340, "#f0f0f6", 0], [378, "#9d7be0", 1]]) {
+        ell(a, 212, 15, 15, cl);
+        ell(a, 190, 12, 11, cl);
+        ell(a - 9, 180 + (s ? 4 : -6), 4.5, s ? 4.5 : 10, cl);
+        ell(a + 9, 180 + (s ? 4 : -6), 4.5, s ? 4.5 : 10, cl);
+        ell(a - 4, 189, 1.8, 1.8, "#2b1e29");
+        ell(a + 4, 189, 1.8, 1.8, "#2b1e29");
+        ell(a, 194, 3, 2, "#e88aa0");
+      }
+    } else if (R.kind === 5) {
+      rr(26, 46, 100, 116, 46);
+      fill(hg(26, 126, "#e9edf4", "#a9b2c4"));
+      rr(34, 54, 84, 100, 40);
+      fill(vg(54, 154, "#cfeefc", "#9fd2ec"));
+      line([52, 74, 70, 64], "rgba(255,255,255,.8)", 4);
+      line([50, 90, 82, 70], "rgba(255,255,255,.6)", 3);
+      rr(30, 176, 96, 24, 12);
+      fill(vg(176, 200, "#ffffff", "#d5dde8"));
+      for (const s of [-1, 1]) {
+        x.beginPath();
+        x.moveTo(78 + s * 14, 184);
+        x.lineTo(78 + s * 6, 184);
+        x.lineTo(78 + s * 11, 172);
+        x.closePath();
+        fill("#c7ccd8");
+      }
+      ell(78, 186, 14, 6, "#dfe2e9");
+      rr(40, 200, 76, 100, 6);
+      fill(vg(200, 300, "#9ad0dd", "#69a9bb"));
+      rr(73, 236, 10, 4, 2);
+      fill("#fff");
+      x.font = "800 13px " + FONT;
+      x.textAlign = "center";
+      x.fillStyle = "#6a7fa0";
+      x.fillText("z", 100, 168);
+      x.fillText("z", 108, 158);
+      rr(290, 100, 96, 7, 3);
+      fill(vg(100, 107, "#fff", "#c8d0dc"));
+      rr(302, 64, 66, 36, 9);
+      fill(hg(302, 368, "#ff8a8a", "#d64545"));
+      ell(320, 82, 11, 11, "#8a2a2a");
+      ell(320, 82, 6, 6, "#5a1a1a");
+      for (let i = 0; i < 3; i++) line([340, 74 + i * 7, 360, 74 + i * 7], "#fff", 2);
+      line([360, 64, 378, 44], "#8892a7", 2.5);
+      rr(262, 224, 140, 82, 32);
+      fill(vg(224, 306, "#ffffff", "#d8e0ea"));
+      rr(270, 224, 124, 14, 7);
+      fill("#8fd4f0");
+      for (const [a, b, r] of [[282, 224, 8], [298, 218, 10], [318, 222, 7], [350, 218, 9], [374, 222, 8]]) ell(a, b, r, r * 0.85, "rgba(255,255,255,.95)");
+      ell(338, 214, 9, 7, "#ffd23f");
+      ell(344, 206, 6, 6, "#ffd23f");
+      ell(350, 206, 3.5, 2, "#ff8a2a");
+    } else if (R.kind === 6) {
+      rr(14, 30, 104, 9, 3);
+      fill(vg(30, 39, "#b98658", "#7d5233"));
+      rr(14, 124, 104, 9, 3);
+      fill(vg(124, 133, "#b98658", "#7d5233"));
+      for (let i = 0; i < 6; i++) {
+        const cl = ["#e05a5a", "#4f8fe0", "#58c9a5", "#ffc94f", "#9d7be0", "#e85d8a"][i];
+        rr(20 + i * 16, 64 + i % 2 * 4, 13, 60 - i % 2 * 4, 2);
+        fill(hg(20 + i * 16, 33 + i * 16, shade(cl, 0.18), shade(cl, -0.18)));
+        rr(22 + i * 16, 74 + i % 2 * 4, 9, 12, 1);
+        fill("#fff");
+      }
+      for (let i = 0; i < 4; i++) {
+        rr(24 + i * 20, 96 + 64, 15, 38, 2);
+        fill(["#7fd6ff", "#ffb37a", "#a6d99a", "#f7a6c7"][i]);
+      }
+      rr(14, 198, 104, 9, 3);
+      fill(vg(198, 207, "#b98658", "#7d5233"));
+      rr(288, 40, 100, 68, 6);
+      fill("#f9fafc");
+      x.strokeStyle = "#c8cdd8";
+      x.lineWidth = 3;
+      x.stroke();
+      line([298, 56, 350, 56], "#4f8fe0", 2.5);
+      line([298, 68, 372, 68], "#9aa3b5", 2);
+      line([298, 80, 340, 80], "#9aa3b5", 2);
+      x.font = "800 13px " + FONT;
+      x.textAlign = "left";
+      x.fillStyle = "#e05a5a";
+      x.fillText("Call 14:00!", 298, 100);
+      rr(258, 232, 144, 12, 3);
+      fill(vg(232, 244, "#c98f62", "#8d5a38"));
+      line([270, 244, 270, 304], "#6a4632", 8);
+      line([390, 244, 390, 304], "#6a4632", 8);
+      rr(306, 180, 76, 52, 5);
+      fill("#2f3346");
+      rr(310, 184, 68, 44, 2);
+      fill("#41507e");
+      for (let i = 0; i < 4; i++) {
+        const a = 311 + i % 2 * 34, b = 185 + (i >> 1) * 22;
+        rr(a, b, 32, 20, 2);
+        fill(i % 3 ? "#5d6b9a" : "#41507e");
+        ell(a + 16, b + 11, 5, 5.5, ["#ffd3b5", "#c98b5a", "#f2c4a2", "#8d5a3a"][i]);
+        ell(a + 16, b + 20, 8, 5, i % 2 ? "#e85d8a" : "#58c9a5");
+      }
+      x.beginPath();
+      x.moveTo(300, 232);
+      x.lineTo(388, 232);
+      x.lineTo(392, 236);
+      x.lineTo(296, 236);
+      x.closePath();
+      fill("#a4abbb");
+      rr(270, 210, 20, 22, 4);
+      fill(hg(270, 290, "#e08a5a", "#b0603a"));
+      ell(274, 200, 8, 12, "#58b860");
+      ell(286, 198, 7, 14, "#4aa552");
+      ell(280, 190, 6, 12, "#6cc874");
+    } else if (R.kind === 7) {
+      const sg = x.createRadialGradient(352, 54, 4, 352, 54, 70);
+      sg.addColorStop(0, "rgba(255,240,160,.9)");
+      sg.addColorStop(1, "rgba(255,240,160,0)");
+      x.fillStyle = sg;
+      x.fillRect(270, 0, 130, 130);
+      ell(352, 54, 22, 22, "#ffe066");
+      for (const [a, b] of [[70, 60], [200, 40]]) {
+        ell(a, b, 26, 12, "#fff");
+        ell(a + 20, b - 6, 20, 13, "#fff");
+        ell(a - 18, b + 2, 16, 9, "#fff");
+      }
+      rr(44, 120, 16, 130, 4);
+      fill(hg(44, 60, "#8d5a38", "#5c3a22"));
+      for (const [a, b, r, cl] of [[52, 110, 46, "#4f9e4a"], [22, 136, 30, "#5aad54"], [86, 132, 32, "#5aad54"], [54, 88, 30, "#66bb5e"]]) ell(a, b, r, r * 0.9, cl);
+      for (const [a, b] of [[36, 104], [70, 124], [50, 140]]) ell(a, b, 4.5, 4.5, "#ef5350");
+      x.fillStyle = vg(306, H, "#9fd67a", "#5fa848");
+      x.fillRect(0, 300, W, H - 300);
+      for (let i = 0; i < 8; i++) {
+        x.fillStyle = i % 2 ? "rgba(255,255,255,.08)" : "rgba(0,60,0,.05)";
+        x.beginPath();
+        x.moveTo(i * 58 - 40, 306);
+        x.lineTo(i * 58 + 18, 306);
+        x.lineTo(i * 80 - 20, H);
+        x.lineTo(i * 80 - 100, H);
+        x.closePath();
+        x.fill();
+      }
+      rr(0, 236, W, 72, 0);
+      fill(vg(236, 308, "#4f9a48", "#3a7a36"));
+      for (let i = 0; i < W + 20; i += 26) ell(i, 238, 16, 12, "#57a650");
+      for (let i = 6; i < W; i += 44) {
+        ell(i, 300, 4, 4, ["#ff8fb0", "#ffd23f", "#fff", "#9d7be0"][(i / 44 | 0) % 4]);
+        ell(i + 3, 296, 3, 3, "#ffe066");
+      }
+      rr(334, 446, 52, 22, 10);
+      fill(vg(446, 468, "#f0f2f6", "#b9c0cc"));
+      rr(344, 440, 32, 10, 5);
+      fill("#58c9a5");
+      ell(342, 468, 6, 6, "#2f3346");
+      ell(378, 468, 6, 6, "#2f3346");
     }
-    if (R.kind !== 1) {
+    if (![1, 5, 7].includes(R.kind)) {
       x.fillStyle = "rgba(255,246,190,.14)";
       x.beginPath();
       x.moveTo(30, 50);
@@ -1163,7 +1746,7 @@ h2{font-size:2rem;color:var(--berry-deep)}
     ls.forEach((l, i) => x.fillText(l, bx + w / 2, by + 23 + i * 21, w - 16));
   }
   function render() {
-    const R = ROOMS[G.lvl], C = CATS[sel], S = G;
+    const R = room(), C = CATS[sel], S = G;
     ensure(R);
     x.save();
     if (shake > 0 && !calm) x.translate(Math.sin(t * 70) * shake * 7, Math.cos(t * 55) * shake * 5);
@@ -1174,7 +1757,7 @@ h2{font-size:2rem;color:var(--berry-deep)}
         ell(44 + q * 0.75, b, 1.5, 1.5, "rgba(255,255,255," + (0.3 + 0.25 * Math.sin(t + i)) + ")");
       }
     }
-    drawHuman(R, S.hu, t, R.kind);
+    drawHuman(R, S.hu, t, R.pose);
     for (const f of S.floor) {
       x.save();
       x.translate(f.x, f.y);
@@ -1273,18 +1856,18 @@ h2{font-size:2rem;color:var(--berry-deep)}
     G.item = { k, x: k === "gurke" ? 192 : START, y: -90, vy: 0, r: 0, ready: false, age: 0, falling: false, vx: 0, vr: 0 };
   }
   function warnHuman(fast, line2) {
-    const R = ROOMS[G.lvl], h = G.hu;
+    const R = room(), h = G.hu;
     h.s = "warn";
-    h.t = fast || R.warn;
+    h.t = fast || diff().warn;
     h.mad = false;
     h.fake = !fast && G.lvl > 0 && Math.random() < 0.32;
     say(line2 || pick(["Hm?", "Moment mal…", "Riecht nach Katze.", "War da was?"]), h.t + 0.2);
     SND.hmm();
   }
   function away() {
-    const R = ROOMS[G.lvl], h = G.hu;
+    const R = room(), h = G.hu;
     h.s = "away";
-    h.t = rnd(R.away[0], R.away[1]);
+    h.t = rnd(diff().away[0], diff().away[1]);
     h.mad = false;
     if (Math.random() < 0.65) say(R.hum[Math.random() * R.hum.length | 0], 1.4);
   }
@@ -1323,7 +1906,7 @@ h2{font-size:2rem;color:var(--berry-deep)}
     }
   }
   function caught() {
-    const h = G.hu, R = ROOMS[G.lvl], C = CATS[sel];
+    const h = G.hu, R = room(), C = CATS[sel];
     G.phase = "caught";
     G.catchT = 1.45;
     G.lives--;
@@ -1358,7 +1941,7 @@ h2{font-size:2rem;color:var(--berry-deep)}
     const it = S.item;
     if (S.phase === "menu") {
       if (h.sayT < -1.2) {
-        say(ROOMS[0].hum[Math.random() * 3 | 0], 1.8);
+        say(pick(room().hum), 1.8);
       }
       cat.mood = t % 5 < 2.4 ? "evil" : "normal";
       cat.reach = t % 5 < 2.4 ? 16 : 0;
@@ -1380,7 +1963,7 @@ h2{font-size:2rem;color:var(--berry-deep)}
             away();
           } else {
             h.s = "look";
-            h.t = ROOMS[S.lvl].look;
+            h.t = diff().look;
             say("", 0);
           }
         }
@@ -1530,8 +2113,8 @@ h2{font-size:2rem;color:var(--berry-deep)}
   }
   const FISH = '<svg viewBox="0 0 30 20" aria-hidden="true"><path fill="FC" d="M2 10C7 3 15 2 21 7l7-5v16l-7-5C15 18 7 17 2 10z"/><circle cx="9" cy="8.5" r="1.7" fill="EC"/></svg>';
   function updateHud() {
-    const R = ROOMS[G.lvl], total = R.items.length;
-    $("room").textContent = R.name + " · " + Math.min(G.done, total) + " von " + total;
+    const R = room(), total = G.total;
+    $("room").textContent = G.lvl + 1 + "/" + ROOMS.length + " " + R.name + " · " + Math.min(G.done, total) + " von " + total;
     $("money").textContent = eur(G.money) + " Schaden";
     let s = "";
     for (let i = 0; i < 3; i++) s += FISH.replace("FC", i < G.lives ? "#e85d8a" : "#e6c8c0").replace("EC", i < G.lives ? "#fffaf3" : "#fffaf3");
@@ -1549,8 +2132,9 @@ h2{font-size:2rem;color:var(--berry-deep)}
   }
   function startLevel(n) {
     G.lvl = n;
-    const R = ROOMS[n];
-    G.queue = R.items.slice();
+    const R = room();
+    G.queue = buildQueue(R, n);
+    G.total = G.queue.length;
     G.done = 0;
     G.item = null;
     G.gap = 0.45;
@@ -1579,29 +2163,33 @@ h2{font-size:2rem;color:var(--berry-deep)}
       G.bill["Engelsgesicht-Bonus"] = b;
       updateHud();
     }
-    if (G.lvl >= ROOMS.length - 1) {
+    if (G.lvl >= G.order.length - 1) {
       showBill(true);
       return;
     }
-    const nx = ROOMS[G.lvl + 1];
-    show(`<h2>${ROOMS[G.lvl].name} geschafft!</h2><p>Bisher ${eur(G.money)} Schaden.${bonus ? " Nie erwischt: 20,00 € Engelsgesicht-Bonus." : ""}</p><p>Weiter geht's: <b>${nx.name}</b>. ${nx.who} Hier wird noch öfter geguckt.</p><button class="go" id="next" type="button">Ins nächste Zimmer</button>`);
+    const nx = ROOMS[G.order[G.lvl + 1]], snack = G.lives < 3;
+    if (snack) {
+      G.lives++;
+      updateHud();
+    }
+    show(`<h2>${room().name} geschafft!</h2><p>Bisher ${eur(G.money)} Schaden.${bonus ? " Nie erwischt: 20,00 € Engelsgesicht-Bonus." : ""}${snack ? " Leckerli gefunden: ein Leben zurück!" : ""}</p><p>Zimmer ${G.lvl + 2} von ${ROOMS.length}: <b>${nx.name}</b>. ${nx.who} Hier wird noch öfter geguckt.</p><button class="go" id="next" type="button">Ins nächste Zimmer</button>`);
     $("next").onclick = () => {
       audio();
       startLevel(G.lvl + 1);
     };
   }
   function rank(m) {
-    return m < 120 ? "Nala-Niveau: Tisch gesucht, Wand gefunden" : m < 400 ? "Lego-im-Flur-Katze" : m < 800 ? "Aufräumtag-Auslöser" : "Family-Chaos-Großkatze";
+    return m < 300 ? "Nala-Niveau: Tisch gesucht, Wand gefunden" : m < 1200 ? "Lego-im-Flur-Katze" : m < 2400 ? "Aufräumtag-Auslöser" : "Family-Chaos-Großkatze";
   }
   function showBill(won) {
     if (G.phase !== "menu" && !won) {
       SND.soft();
     }
     G.phase = "over";
-    const C = CATS[sel], k = "ta2-best-" + sel, old = parseFloat(store.get(k)) || 0, isBest = G.money > old;
+    const C = CATS[sel], k = "ta3-best-" + sel, old = parseFloat(store.get(k)) || 0, isBest = G.money > old;
     if (isBest) store.set(k, String(G.money));
     const lines = Object.keys(G.bill).map((n) => `<li><span>${G.bill[n].n > 1 ? G.bill[n].n + " × " : ""}${n}</span><span>${eur(G.bill[n].s)}</span></li>`).join("") || "<li><span>Nichts kaputt. Peinlich.</span><span>0,00 €</span></li>";
-    show(`<h2>${won ? "Alles runter!" : "Hausarrest!"}</h2><p>${won ? "Kinder im Bett, " + C.name + " auf dem Sofa. Morgen um 6 maunzt Mogli. Wie immer." : C.name + " hat jetzt ein Erwischt-Abo. Papa guckt streng."}</p><ul class="bill">${lines}</ul><div class="total"><span>Rechnung</span><span>${eur(G.money)}</span></div><div class="rank">${rank(G.money)}${isBest ? " · Neuer Rekord für " + C.name : ""}</div><button class="go" id="again" type="button">Nochmal mit ${C.name}</button><button class="alt" id="other" type="button">Andere Katze wählen</button>`);
+    show(`<h2>${won ? "Alles runter!" : "Hausarrest!"}</h2><p>${won ? "Alle acht Zimmer verwüstet. Kinder im Bett, " + C.name + " auf dem Sofa. Morgen um 6 maunzt Mogli. Wie immer." : C.name + " hat jetzt ein Erwischt-Abo. Papa guckt streng."}</p><ul class="bill">${lines}</ul><div class="total"><span>Rechnung</span><span>${eur(G.money)}</span></div><div class="rank">${rank(G.money)}${isBest ? " · Neuer Rekord für " + C.name : ""}</div><button class="go" id="again" type="button">Nochmal mit ${C.name}</button><button class="alt" id="other" type="button">Andere Katze wählen</button>`);
     $("again").onclick = () => {
       audio();
       begin();
@@ -1644,8 +2232,8 @@ h2{font-size:2rem;color:var(--berry-deep)}
     updateHud();
     $("money").textContent = "Bereit?";
     $("room").textContent = "Tassen-Attentat";
-    show(`<h1>Tassen-Attentat</h1><ul class="how"><li><b>Gedrückt halten:</b> Deine Katze schubst alles vom Tisch.</li><li><b>Mensch dreht sich um?</b> Sofort loslassen und süß gucken.</li><li><b>Gurke?</b> Nicht anfassen. Katzen hassen Gurken.</li></ul><div class="cats">${CATS.map((C, i) => {
-      const b = parseFloat(store.get("ta2-best-" + i)) || 0;
+    show(`<h1>Tassen-Attentat</h1><ul class="how"><li><b>Gedrückt halten:</b> Deine Katze schubst alles vom Tisch.</li><li><b>Mensch dreht sich um?</b> Sofort loslassen und süß gucken.</li><li><b>Gurke?</b> Nicht anfassen. Katzen hassen Gurken.</li><li><b>Acht Zimmer</b> in zufälliger Reihenfolge. Jedes wird schwerer.</li></ul><div class="cats">${CATS.map((C, i) => {
+      const b = parseFloat(store.get("ta3-best-" + i)) || 0;
       return `<button class="cat" type="button" data-i="${i}" aria-pressed="${i === sel}"><canvas aria-hidden="true"></canvas>${C.name}<span class="best">${b ? eur(b) : C.tag}</span></button>`;
     }).join("")}</div><button class="go" id="start" type="button">Los, Chaos machen!</button>`);
     portraits();
